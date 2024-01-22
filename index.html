@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer</title>
+  <script>
+    window.onload = function() {
+      let timeLeft = 172800; // 172800 seconds = 48 hours
+      let countdownTimer = setInterval(function() {
+        const timerDisplay = document.getElementById('timer');
+        const hours = Math.floor(timeLeft / 3600);
+        const minutes = Math.floor((timeLeft % 3600) / 60);
+        const seconds = timeLeft % 60;
+        timerDisplay.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        timeLeft--;
+        if (timeLeft < 0) {
+          clearInterval(countdownTimer);
+          timerDisplay.textContent = 'Time\'s up!';
+        }
+      }, 1000);
+    };
+  </script>
+</head>
+<body>
+  <h1>Countdown Timer</h1>
+  <p id="timer">48:00:00</p>
+</body>
+</html>
