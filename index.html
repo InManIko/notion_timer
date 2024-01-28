@@ -17,7 +17,7 @@
     <p id="timer">48:00:00</p>
     <button id="startButton">Start</button>
     <div id="videoPlayer" style="display: none;">
-        <iframe width="560" height="315" src="https://tools.apgy.in/ytl/RbwGWQ-mLTI" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" id="youtubeVideo" src="" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <script>
@@ -25,7 +25,7 @@
         let seconds = 0;
         let minutes = 0;
         let hours = 0;
-        let videoUrl = "https://tools.apgy.in/ytl/RbwGWQ-mLTI"; // Replace YOUR_VIDEO_ID with your actual video ID
+        let videoUrl = "https://www.youtube.com/watch?v=RbwGWQ-mLTI"; // Replace YOUR_VIDEO_ID with your actual video ID
 
         function startTimer() {
             hours = 48;
@@ -58,7 +58,19 @@
             }, 1000);
         }
 
+        function extractVideoId(url) {
+            let videoId = url.split('v=')[1];
+            const ampersandPosition = videoId.indexOf('&');
+            if (ampersandPosition !== -1) {
+                videoId = videoId.substring(0, ampersandPosition);
+            }
+            return videoId;
+        }
+
         document.getElementById('startButton').addEventListener('click', function() {
+            videoUrl = prompt("Please enter the full YouTube video URL:");
+            let videoId = extractVideoId(videoUrl);
+            document.getElementById('youtubeVideo').src = `https://www.youtube.com/embed/${videoId}`;
             startTimer();
             document.getElementById('startButton').disabled = true;
         });
