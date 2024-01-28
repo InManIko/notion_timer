@@ -16,35 +16,56 @@
     <h2>Countdown Timer</h2>
     <p id="timer">48:00:00</p>
     <button id="startButton">Start</button>
+    <div id="videoLink" style="display: none;">
+        <p id="videoText">Your video link here</p>
+        <a id="videoUrl" href="#" target="_blank"></a>
+    </div>
 
     <script>
         let timer;
         let seconds = 0;
         let minutes = 0;
         let hours = 48;
+        let videoUrl = https://youtu.be/RbwGWQ-mLTI;
 
         function startTimer() {
+            seconds = 0;
+            minutes = 0;
+            hours = 48;
+
+            // Display the video link initially
+            document.getElementById('videoLink').style.display = 'block';
+            document.getElementById('videoUrl').href = videoUrl;
+            document.getElementById('videoUrl').innerText = "Click here to watch the video";
+
             timer = setInterval(function() {
-                seconds--;
-                if (seconds < 0) {
-                    seconds = 59;
-                    minutes--;
-                    if (minutes < 0) {
-                        minutes = 59;
-                        hours--;
-                        if (hours < 0) {
-                            clearInterval(timer);
-                            alert("Countdown timer has reached 00:00:00");
-                            return;
+                if (hours === 0 && minutes === 0 && seconds === 0) {
+                    clearInterval(timer);
+                    document.getElementById('timer').innerHTML = "00:00:00";
+                    document.getElementById('videoLink').style.display = 'none';
+                } else {
+                    if (seconds === 0) {
+                        seconds = 59;
+                        if (minutes === 0) {
+                            minutes = 59;
+                            if (hours !== 0) {
+                                hours--;
+                            }
+                        } else {
+                            minutes--;
                         }
+                    } else {
+                        seconds--;
                     }
+
+                    document.getElementById('timer').innerHTML = `${(hours < 10 ? '0' : '') + hours}:${(minutes < 10 ? '0' : '') + minutes}:${(seconds < 10 ? '0' : '') + seconds}`;
                 }
-                document.getElementById('timer').innerHTML = `${(hours < 10 ? '0' : '') + hours}:${(minutes < 10 ? '0' : '') + minutes}:${(seconds < 10 ? '0' : '') + seconds}`;
             }, 1000);
         }
 
         document.getElementById('startButton').addEventListener('click', function() {
             startTimer();
+            document.getElementById('startButton').disabled = true; // Disable the Start button after it's pressed
         });
     </script>
 </body>
