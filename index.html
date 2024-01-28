@@ -16,8 +16,9 @@
     <h2>Countdown Timer</h2>
     <p id="timer">48:00:00</p>
     <button id="startButton">Start</button>
-    <div id="videoPlayer" style="display: none;">
-        <iframe width="560" height="315" id="youtubeVideo" src="" frameborder="0" allowfullscreen></iframe>
+    <div id="videoLink" style="display: none;">
+        <p id="videoText">Your video link here</p>
+        <a id="videoUrl" href="#" target="_blank"></a>
     </div>
 
     <script>
@@ -25,20 +26,22 @@
         let seconds = 0;
         let minutes = 0;
         let hours = 0;
-        let videoUrl = "https://youtu.be/RbwGWQ-mLTI"; // Replace YOUR_VIDEO_ID with your actual video ID
+        let videoUrl = "https://youtu.be/RbwGWQ-mLTI";
 
         function startTimer() {
             hours = 48;
             minutes = 0;
             seconds = 0;
 
-            document.getElementById('videoPlayer').style.display = 'block'; // Show the embedded video
+            document.getElementById('videoLink').style.display = 'block';
+            document.getElementById('videoUrl').href = videoUrl;
+            document.getElementById('videoUrl').innerText = "Click here to watch the video";
 
             timer = setInterval(function() {
                 if (hours === 0 && minutes === 0 && seconds === 0) {
                     clearInterval(timer);
                     document.getElementById('timer').innerHTML = "00:00:00";
-                    document.getElementById('videoPlayer').style.display = 'none'; // Hide the embedded video
+                    document.getElementById('videoLink').style.display = 'none';
                 } else {
                     if (seconds === 0) {
                         seconds = 59;
@@ -58,19 +61,7 @@
             }, 1000);
         }
 
-        function extractVideoId(url) {
-            let videoId = url.split('v=')[1];
-            const ampersandPosition = videoId.indexOf('&');
-            if (ampersandPosition !== -1) {
-                videoId = videoId.substring(0, ampersandPosition);
-            }
-            return videoId;
-        }
-
         document.getElementById('startButton').addEventListener('click', function() {
-            videoUrl = prompt("Please enter the full YouTube video URL:");
-            let videoId = extractVideoId(videoUrl);
-            document.getElementById('youtubeVideo').src = `https://www.youtube.com/embed/${videoId}`;
             startTimer();
             document.getElementById('startButton').disabled = true;
         });
